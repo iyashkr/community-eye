@@ -32,7 +32,8 @@ export default function Home() {
             <Text style={{ fontSize: 16, fontWeight: 500 }}>Select your problem, because we've got the solution!</Text>
             <View style={{ marginVertical: 15, gap: 15 }}>
                 <View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
-                    <TouchableOpacity style={{ alignItems: 'center', justifyContent: 'center', elevation: 5 }} activeOpacity={0.7}>
+                    <TouchableOpacity style={{ alignItems: 'center', justifyContent: 'center', elevation: 5 }}
+                        activeOpacity={0.7} onPress={() => router.navigate('/capture')}>
                         <Image source={require('../assets/images/public/damagedRoads.png')} style={{ width: 160, height: 150 }}></Image>
                         <View style={styles.categoryTextContainer}>
                             <Text style={[styles.categoryText, { fontWeight: 600 }]}>Damaged Roads</Text>
