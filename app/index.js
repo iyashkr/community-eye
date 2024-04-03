@@ -7,12 +7,12 @@ export default function Index() {
   return (
     <View style={styles.container}>
       <View style={{ alignItems: 'center', marginVertical: 30 }}>
-        <Image source={require('../assets/images/public/logowithtext.png')}></Image>
+        <Image source={require('../assets/images/public/logowithtext.png')} />
       </View>
       <View style={{ alignItems: 'center', marginBottom: 30 }}>
         <Text style={{ fontSize: 20 }}>Let's get started</Text>
       </View>
-      <TouchableOpacity style={styles.digiBtn} activeOpacity={0.7}>
+      <TouchableOpacity style={styles.digiBtn} activeOpacity={0.7} onPress={() => router.navigate('/profile')}>
         <DigiLockerIcon />
         <Text style={{ fontSize: 18 }}>Continue with E-AADHAR</Text>
       </TouchableOpacity>

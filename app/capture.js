@@ -45,7 +45,7 @@ export default function CameraScreen() {
     // Handle image save
     const savePicture = () => {
         // Logic to save the picture and navigate to the next page
-        router.navigate('/complaintForm', { image: capturedImage });
+        router.navigate('/complaintform');
     };
 
     // Render camera or captured image

@@ -17,12 +17,12 @@ export default function ComplaintStatus() {
         <ScrollView style={styles.container}>
             {/* Header */}
             <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-                <View style={{ flex: 1, right: 12 }}>
+                <TouchableOpacity activeOpacity={0.7} style={{ flex: 1, right: 12 }} onPress={() => router.back()}>
                     <CarretLeft />
-                </View>
+                </TouchableOpacity>
                 <View style={{ flex: 1 }}>
                     <Image source={require('../assets/images/public/pmalogo.png')}
-                        style={{ height: 96, width: 96, alignSelf: 'center' }}></Image>
+                        style={{ height: 96, width: 96, alignSelf: 'center' }} />
                 </View>
                 <View style={{ flex: 1 }}></View>
             </View>

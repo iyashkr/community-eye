@@ -10,18 +10,18 @@ export default function SuccessPage() {
         <ScrollView style={styles.container}>
             {/* Header */}
             <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-                <View style={{ flex: 1, right: 12 }}>
+                <TouchableOpacity activeOpacity={0.7} style={{ flex: 1, right: 12 }} onPress={() => router.push('/home')}>
                     <CarretLeft />
-                </View>
+                </TouchableOpacity>
                 <View style={{ flex: 1 }}>
                     <Image source={require('../assets/images/public/pmalogo.png')}
-                        style={{ height: 96, width: 96, alignSelf: 'center' }}></Image>
+                        style={{ height: 96, width: 96, alignSelf: 'center' }} />
                 </View>
                 <View style={{ flex: 1 }}></View>
             </View>
             {/* Body */}
             <View style={{ justifyContent: 'center', alignItems: 'center', margin: 30 }}>
-                <Image style={{}} source={require('../assets/images/public/bigGreenTick.png')}></Image>
+                <Image style={{}} source={require('../assets/images/public/bigGreenTick.png')} />
             </View>
 
             {/* Complaint ID container */}
@@ -32,9 +32,9 @@ export default function SuccessPage() {
                     <Text style={{ color: "#FCB226", fontSize: 32, textAlign: 'center' }}>76589</Text>
                 </View>
             </View>
-            <View style={styles.dashboardBtn}>
+            <TouchableOpacity activeOpacity={0.7} style={styles.dashboardBtn} onPress={() => router.navigate('/home')}>
                 <Text style={{ fontSize: 16, color: 'white', fontWeight: 600, }}>Dashboard</Text>
-            </View>
+            </TouchableOpacity>
             <Text style={{ textDecorationLine: 'underline', textAlign: 'center' }}>Check Complaint Status</Text>
         </ScrollView>
     )

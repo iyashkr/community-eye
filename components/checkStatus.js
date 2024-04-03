@@ -1,12 +1,14 @@
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
+import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native'
 import React from 'react'
 import { router } from 'expo-router'
 
 export default function CheckStatus() {
     return (
         <View style={styles.container}>
-            <Text>check Status</Text>
-            <TouchableOpacity activeOpacity={0.7} style={styles.reportBtn} onPress={() => router.navigate('/successPage')}>
+            <View style={{ alignItems: 'center', justifyContent: 'center', marginVertical: 30 }}>
+                <Image source={require('../assets/images/public/complaintstatus.png')} />
+            </View>
+            <TouchableOpacity activeOpacity={0.7} style={styles.reportBtn} onPress={() => router.navigate('/reportInsights')}>
                 <Text style={[styles.reportText, { fontWeight: 600 }]} >See Report</Text>
             </TouchableOpacity>
         </View>
@@ -21,7 +23,7 @@ const styles = StyleSheet.create({
     },
     reportBtn: {
         backgroundColor: "#4087d6",
-        width: "90%",
+        width: "100%",
         height: 48,
         alignSelf: 'center',
         borderRadius: 5,
@@ -32,5 +34,6 @@ const styles = StyleSheet.create({
     reportText: {
         color: 'white',
         fontSize: 16,
+
     }
 })
