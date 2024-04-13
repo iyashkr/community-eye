@@ -1,6 +1,6 @@
 import { View, Text, ScrollView, StyleSheet, TouchableOpacity, Image } from 'react-native'
 import React from 'react'
-import { CarretLeft, ProfileCheck, } from '../components/icons'
+import { CarretLeft, ProfileCheck, } from '../../components/icons'
 import { router } from 'expo-router'
 
 export default function Profile() {

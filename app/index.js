@@ -1,11 +1,11 @@
-import { Image, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
+import { Image, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
 import React from 'react'
 import { DigiLockerIcon, ShieldIcon } from '../components/icons'
 import { router } from 'expo-router'
 
 export default function Index() {
   return (
-    <View style={styles.container}>
+    <ScrollView style={styles.container}>
       <View style={{ alignItems: 'center', marginVertical: 30 }}>
         <Image source={require('../assets/images/public/logowithtext.png')} />
       </View>
@@ -32,7 +32,7 @@ export default function Index() {
       <TouchableOpacity style={styles.loginBtn} activeOpacity={0.7} onPress={() => router.navigate('/home')}>
         <Text style={{ fontSize: 16, fontWeight: 700, color: 'white', textAlign: 'center' }}>LogIn</Text>
       </TouchableOpacity>
-    </View>
+    </ScrollView >
   )
 }
 

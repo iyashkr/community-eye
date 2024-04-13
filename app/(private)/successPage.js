@@ -1,8 +1,8 @@
 import { View, Text, Image, StyleSheet, TextInput, TouchableOpacity, ScrollView } from 'react-native'
 import React, { useState } from 'react'
-import { CarretLeft } from '../components/icons'
+import { CarretLeft } from '../../components/icons'
 import { router } from 'expo-router'
-import CheckStatus from '../components/checkStatus'
+import CheckStatus from '../../components/checkStatus'
 
 export default function SuccessPage() {
 

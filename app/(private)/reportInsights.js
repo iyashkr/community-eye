@@ -1,6 +1,6 @@
 import { View, Text, ScrollView, StyleSheet, Image, TouchableOpacity } from 'react-native'
 import React from 'react'
-import { CarretLeft } from '../components/icons'
+import { CarretLeft } from '../../components/icons'
 import { router } from 'expo-router'
 
 export default function ReportInsights() {

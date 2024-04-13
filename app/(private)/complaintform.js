@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text, ScrollView, Image, StyleSheet, TextInput, TouchableOpacity } from 'react-native';
-import { CarretLeft, MicIcon, ShieldIcon } from '../components/icons';
+import { CarretLeft, MicIcon, ShieldIcon } from '../../components/icons';
 import { router } from 'expo-router'; // Import the router
 
 export default function ComplaintForm() {

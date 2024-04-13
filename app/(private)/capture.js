@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Image } from 'react-native';
 import { Camera } from 'expo-camera';
-import { CarretLeft, Tick } from '../components/icons';
+import { CarretLeft, Tick } from '../../components/icons';
 import { router } from 'expo-router';
 
 export default function CameraScreen() {
