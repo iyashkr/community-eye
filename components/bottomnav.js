@@ -1,72 +1,43 @@
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
-import React, { useEffect, useState } from 'react'
-import { router } from 'expo-router';
+import React, { useEffect, useState } from 'react';
+import { View, StyleSheet, TouchableOpacity } from 'react-native';
+import { router, usePathname } from 'expo-router';
 import { AccountActive, AccountIcon, CommunityActive, CommunityIcon, HomeActive, HomeIcon, NewsActive, NewsIcon } from './icons';
 
-export default function BottomNav({ route }) {
+export default function BottomNav() {
+    const route = usePathname();
     const [activeTab, setActiveTab] = useState(1); // Set the initial active tab
+
     const tabs = [
-        {
-            tab: "/home",
-            id: 1
-        },
-        {
-            tab: "/community",
-            id: 2
-        },
-        {
-            tab: "/news",
-            id: 3
-        },
-        {
-            tab: "/account",
-            id: 4
-        }
+        { tab: "/home", id: 1, Icon: activeTab === 1 ? HomeActive : HomeIcon },
+        { tab: "/community", id: 2, Icon: activeTab === 2 ? CommunityActive : CommunityIcon },
+        { tab: "/news", id: 3, Icon: activeTab === 3 ? NewsActive : NewsIcon },
+        { tab: "/profile", id: 4, Icon: activeTab === 4 ? AccountActive : AccountIcon }
     ];
 
     useEffect(() => {
         const tabIndex = tabs.findIndex(tab => tab.tab === route);
-        if (tabIndex !== -1) {
-            setActiveTab(tabIndex + 1);
-        } else {
-            setActiveTab(0);
-        }
+        setActiveTab(tabIndex !== -1 ? tabIndex + 1 : 1);
+        // console.log(tabIndex, route, tabs)
     }, [route]);
 
     const handleTabPress = (tab) => {
-        router.navigate(tabs[tab].tab);
-        setActiveTab(tabs[tab].id);
+        router.navigate(tab.tab);
+        setActiveTab(tab.id);
     };
 
-
+    const renderTab = (tab) => (
+        <View key={tab.id} style={activeTab === tab.id ? styles.activeTab : styles.tab}>
+            <TouchableOpacity onPress={() => handleTabPress(tab)} style={styles.icon}>
+                <tab.Icon />
+            </TouchableOpacity>
+        </View>
+    );
 
     return (
         <View style={styles.container}>
-            <View style={styles.tab}>
-                <TouchableOpacity onPress={() => handleTabPress(0)} style={styles.icon}>
-                    {activeTab === 1 ?
-                        <View style={{}}>
-                            <HomeActive />
-                        </View> : <HomeIcon />}
-                </TouchableOpacity>
-            </View>
-            <View style={styles.tab}>
-                <TouchableOpacity onPress={() => handleTabPress(1)} style={styles.icon}>
-                    {activeTab === 2 ? <CommunityActive /> : <CommunityIcon />}
-                </TouchableOpacity>
-            </View>
-            <View style={styles.tab}>
-                <TouchableOpacity onPress={() => handleTabPress(2)} style={styles.icon}>
-                    {activeTab === 3 ? <NewsActive /> : <NewsIcon />}
-                </TouchableOpacity>
-            </View>
-            <View style={styles.tab}>
-                <TouchableOpacity onPress={() => handleTabPress(3)} style={styles.icon}>
-                    {activeTab === 4 ? <AccountActive /> : <AccountIcon />}
-                </TouchableOpacity>
-            </View>
+            {tabs.map(renderTab)}
         </View>
-    )
+    );
 }
 
 const styles = StyleSheet.create({
@@ -83,12 +54,19 @@ const styles = StyleSheet.create({
     },
     tab: {
         alignItems: 'center',
-        justifyContent: 'center'
+        justifyContent: 'center',
+        height: "100%",
+        width: 60,
     },
     icon: {
-        height: 30,
-        width: 30,
         justifyContent: 'center',
         shadowColor: "#F68220",
+        alignItems: 'center',
+        height: "100%",
+    },
+    activeTab: {
+        backgroundColor: "#3278C5",
+        height: "100%",
+        width: 60,
     }
-})
+});

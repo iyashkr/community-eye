@@ -1,16 +1,19 @@
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
 import BottomNav from '../../components/bottomnav';
+import { Slot } from 'expo-router';
 
 const Layout = ({ children }) => {
     return (
         <View style={styles.container}>
             <View style={styles.content}>
-                {children}
+                <Slot />
             </View>
 
             {/* Bottom Navigation Bar */}
-            <BottomNav />
+            <View style={{ height: 60 }}>
+                <BottomNav />
+            </View>
         </View>
     );
 };
@@ -18,10 +21,11 @@ const Layout = ({ children }) => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+        height: "100%",
     },
     content: {
         flex: 1,
-        paddingBottom: 60,
+        height: "100%",
     },
 });
 

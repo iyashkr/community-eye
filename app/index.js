@@ -12,7 +12,7 @@ export default function Index() {
       <View style={{ alignItems: 'center', marginBottom: 30 }}>
         <Text style={{ fontSize: 20 }}>Let's get started</Text>
       </View>
-      <TouchableOpacity style={styles.digiBtn} activeOpacity={0.7} onPress={() => router.navigate('/profile')}>
+      <TouchableOpacity style={styles.digiBtn} activeOpacity={0.7} onPress={() => router.navigate('/adminlogin')}>
         <AdminLogin />
         <Text style={{ fontSize: 16 }}>Continue with E-AADHAR</Text>
       </TouchableOpacity>
