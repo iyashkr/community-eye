@@ -1,6 +1,6 @@
 import { Image, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
 import React from 'react'
-import { DigiLockerIcon, ShieldIcon } from '../components/icons'
+import { AdminLogin, ShieldIcon } from '../components/icons'
 import { router } from 'expo-router'
 
 export default function Index() {
@@ -13,8 +13,8 @@ export default function Index() {
         <Text style={{ fontSize: 20 }}>Let's get started</Text>
       </View>
       <TouchableOpacity style={styles.digiBtn} activeOpacity={0.7} onPress={() => router.navigate('/profile')}>
-        <DigiLockerIcon />
-        <Text style={{ fontSize: 18 }}>Continue with E-AADHAR</Text>
+        <AdminLogin />
+        <Text style={{ fontSize: 16 }}>Continue with E-AADHAR</Text>
       </TouchableOpacity>
       <View style={{ flexDirection: 'row', gap: 10, alignItems: 'center', justifyContent: 'center', marginBottom: 40 }}>
         <View style={{ borderBottomWidth: 1, width: "32%", borderColor: "#AAAAAA" }}></View>
@@ -56,7 +56,7 @@ const styles = StyleSheet.create({
     gap: 15, flexDirection: 'row',
     alignItems: 'center',
     elevation: 2, height: 64,
-    justifyContent: 'center',
+    paddingHorizontal: 15,
     backgroundColor: 'white',
     marginBottom: 40
   }

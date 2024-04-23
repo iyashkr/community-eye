@@ -12,7 +12,7 @@ export default function Profile() {
                     <CarretLeft />
                 </TouchableOpacity>
                 <View style={{ flex: 1 }}>
-                    <Image source={require('../assets/images/public/pmalogo.png')}
+                    <Image source={require('../../assets/images/public/pmalogo.png')}
                         style={{ height: 96, width: 96, alignSelf: 'center' }} />
                 </View>
                 <View style={{ flex: 1 }}></View>
@@ -20,7 +20,7 @@ export default function Profile() {
             {/* Body */}
             <Text style={{ fontSize: 24, textAlign: 'center', fontWeight: 500 }}>Profile</Text>
             <View style={styles.profileBar}>
-                <Image source={require('../assets/images/public/testProfile.png')}
+                <Image source={require('../../assets/images/public/testProfile.png')}
                     style={{ height: 56, width: 56, objectFit: 'contain', borderRadius: 100 }} />
                 <View style={{ right: 20, backgroundColor: "white", borderRadius: 100, bottom: 20 }}>
                     <ProfileCheck />

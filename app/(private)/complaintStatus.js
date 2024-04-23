@@ -21,7 +21,7 @@ export default function ComplaintStatus() {
                     <CarretLeft />
                 </TouchableOpacity>
                 <View style={{ flex: 1 }}>
-                    <Image source={require('../assets/images/public/pmalogo.png')}
+                    <Image source={require('../../assets/images/public/pmalogo.png')}
                         style={{ height: 96, width: 96, alignSelf: 'center' }} />
                 </View>
                 <View style={{ flex: 1 }}></View>

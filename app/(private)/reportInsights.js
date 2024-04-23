@@ -12,7 +12,7 @@ export default function ReportInsights() {
                     <CarretLeft />
                 </TouchableOpacity>
                 <View style={{ flex: 1 }}>
-                    <Image source={require('../assets/images/public/pmalogo.png')}
+                    <Image source={require('../../assets/images/public/pmalogo.png')}
                         style={{ height: 96, width: 96, alignSelf: 'center' }} />
                 </View>
                 <View style={{ flex: 1 }}></View>
@@ -31,11 +31,11 @@ export default function ReportInsights() {
             </View>
             <View style={{ alignItems: 'center', justifyContent: 'center', gap: 10, marginBottom: 30 }}>
                 <Text style={{ fontSize: 20 }}>Before</Text>
-                <Image source={require('../assets/images/public/before.png')} style={{ borderRadius: 5 }} />
+                <Image source={require('../../assets/images/public/before.png')} style={{ borderRadius: 5 }} />
             </View>
             <View style={{ alignItems: 'center', justifyContent: 'center', gap: 10, marginBottom: 30 }}>
                 <Text style={{ fontSize: 20 }}>After</Text>
-                <Image source={require('../assets/images/public/before.png')} style={{ borderRadius: 5 }} />
+                <Image source={require('../../assets/images/public/before.png')} style={{ borderRadius: 5 }} />
             </View>
         </ScrollView>
     )
