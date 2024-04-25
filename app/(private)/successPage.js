@@ -2,12 +2,17 @@ import { View, Text, Image, StyleSheet, TextInput, TouchableOpacity, ScrollView 
 import React, { useState } from 'react'
 import { CarretLeft } from '../../components/icons'
 import { router } from 'expo-router'
-import CheckStatus from '../../components/checkStatus'
 
 export default function SuccessPage() {
 
+    const generateComplaintId = () => {
+        return Math.floor(10000 + Math.random() * 90000); // Generates a random number between 10000 and 99999
+    };
+    const [complaintId, setComplaintId] = useState(generateComplaintId());
+
     return (
         <ScrollView style={styles.container}>
+
             {/* Header */}
             <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
                 <TouchableOpacity activeOpacity={0.7} style={{ flex: 1, right: 12 }} onPress={() => router.push('/home')}>
@@ -19,6 +24,7 @@ export default function SuccessPage() {
                 </View>
                 <View style={{ flex: 1 }}></View>
             </View>
+
             {/* Body */}
             <View style={{ justifyContent: 'center', alignItems: 'center', margin: 30 }}>
                 <Image style={{}} source={require('../../assets/images/public/bigGreenTick.png')} />
@@ -29,7 +35,7 @@ export default function SuccessPage() {
                 <Text style={{ fontSize: 20, fontWeight: 500, textAlign: 'center' }}>Your complaint has been registered successfully.</Text>
                 <Text style={{ fontSize: 16, textAlign: 'center', marginTop: 20, marginBottom: 5 }}>COMPLAINT ID</Text>
                 <View style={{ backgroundColor: 'white', width: '40%', alignSelf: 'center', elevation: 2 }}>
-                    <Text style={{ color: "#FCB226", fontSize: 32, textAlign: 'center' }}>76589</Text>
+                    <Text style={{ color: "#FCB226", fontSize: 32, textAlign: 'center' }}>{complaintId}</Text>
                 </View>
             </View>
             <TouchableOpacity activeOpacity={0.7} style={styles.dashboardBtn} onPress={() => router.navigate('/home')}>

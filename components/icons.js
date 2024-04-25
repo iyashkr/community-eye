@@ -17,6 +17,9 @@ import AccountActive from "../assets/images/icons/accountActive.svg"
 import LikeIcon from "../assets/images/icons/like.svg"
 import ShareIcon from "../assets/images/icons/share.svg"
 import CommentIcon from "../assets/images/icons/comment.svg"
+import LocationIcon from "../assets/images/icons/location.svg"
+import TimeIcon from "../assets/images/icons/time.svg"
+import SeenEyeIcon from "../assets/images/icons/seeneye.svg"
 
 export {
     HomeIcon,
@@ -37,5 +40,8 @@ export {
     ProfileCheck,
     LikeIcon,
     ShareIcon,
-    CommentIcon
+    CommentIcon,
+    LocationIcon,
+    TimeIcon,
+    SeenEyeIcon,
 };
