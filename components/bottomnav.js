@@ -21,7 +21,7 @@ export default function BottomNav() {
     }, [route]);
 
     const handleTabPress = (tab) => {
-        router.navigate(tab.tab);
+        router.replace(tab.tab);
         setActiveTab(tab.id);
     };
 
@@ -50,7 +50,7 @@ const styles = StyleSheet.create({
         paddingHorizontal: 40,
         borderTopWidth: 1,
         borderColor: "#706D6D2B",
-        backgroundColor: "#FCFFF7"
+        backgroundColor: "white"
     },
     tab: {
         alignItems: 'center',

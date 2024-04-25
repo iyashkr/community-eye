@@ -14,6 +14,9 @@ import NewsIcon from "../assets/images/icons/news.svg"
 import NewsActive from "../assets/images/icons/newsActive.svg"
 import AccountIcon from "../assets/images/icons/account.svg"
 import AccountActive from "../assets/images/icons/accountActive.svg"
+import LikeIcon from "../assets/images/icons/like.svg"
+import ShareIcon from "../assets/images/icons/share.svg"
+import CommentIcon from "../assets/images/icons/comment.svg"
 
 export {
     HomeIcon,
@@ -31,5 +34,8 @@ export {
     Tick,
     CarretLeft,
     GreenCheck,
-    ProfileCheck
+    ProfileCheck,
+    LikeIcon,
+    ShareIcon,
+    CommentIcon
 };

@@ -1,8 +1,8 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Image } from 'react-native';
 import { Camera } from 'expo-camera';
-import { CarretLeft, Tick } from '../../components/icons';
 import { router } from 'expo-router';
+import { CarretLeft, Tick } from '../../components/icons';
 
 export default function CameraScreen() {
     const [hasPermission, setHasPermission] = useState(null);
@@ -108,6 +108,8 @@ const styles = StyleSheet.create({
         borderRadius: 30,
         height: 100,
         borderRadius: 50,
+        borderColor: 'white',
+        borderWidth: 5,
         width: 100,
         padding: 15,
     },
