@@ -1,9 +1,72 @@
 import { Image, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
-import React from 'react'
+import React, { useState } from 'react'
 import { AdminLogin, ShieldIcon } from '../components/icons'
 import { router } from 'expo-router'
 
 export default function Index() {
+  const aadharData = [
+    {
+      id: 1,
+      aadharNumber: '1234567887654321',
+    },
+    {
+      id: 2,
+      aadharNumber: '2345678976543210',
+    },
+    {
+      id: 3,
+      aadharNumber: '3456789065432109',
+    },
+    {
+      id: 4,
+      aadharNumber: '4567890154321098',
+    },
+    {
+      id: 5,
+      aadharNumber: '5678901243210987',
+    },
+    {
+      id: 6,
+      aadharNumber: '6789012332109876',
+    },
+    {
+      id: 7,
+      aadharNumber: '7890123421098765',
+    },
+    {
+      id: 8,
+      aadharNumber: '8901234510987654',
+    },
+    {
+      id: 9,
+      aadharNumber: '9012345609876543',
+    },
+    {
+      id: 10,
+      aadharNumber: '0123456798765432',
+    }
+  ];
+
+  const [aadharNum, setAadharNum] = useState('');
+  const [error, setError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
+
+  const handleLogin = () => {
+    const strippedText = aadharNum.replace(/-/g, '');
+    const matchingAadhar = aadharData.find(item => item.aadharNumber === strippedText);
+    if (matchingAadhar) {
+      router.navigate('/home');
+      console.log('Login successful');
+      setError(false); // Reset error state
+    } else if (strippedText.length === 16 && !matchingAadhar) {
+      setError(true);
+      setErrorMessage('Aadhar number not found');
+    } else {
+      setError(true);
+      setErrorMessage('Aadhar must be 16 digits long');
+    }
+  };
+
   return (
     <ScrollView style={styles.container}>
       <View style={{ alignItems: 'center', marginVertical: 30 }}>
@@ -23,13 +86,19 @@ export default function Index() {
       </View>
       <Text style={{ fontSize: 16, color: "#6E6E6E", marginBottom: 10 }}>Aadhar Number</Text>
       <TextInput placeholder='1234-5678-8765-4321'
-        style={{ backgroundColor: 'white', height: 48, elevation: 2, paddingHorizontal: 15 }}>
-      </TextInput>
+        style={[styles.input, error && styles.errorBorder]}
+        value={aadharNum}
+        onChangeText={setAadharNum} keyboardType="numeric" />
+
+      {error && (
+        <Text style={styles.errorText}>
+          {errorMessage || 'Aadhar must be 16 digits long'}
+        </Text>)}
       <View style={{ gap: 10, flexDirection: 'row', marginTop: 20, justifyContent: 'center', alignItems: 'center' }}>
         <ShieldIcon />
         <Text style={{ flex: 1, color: "#828282", fontSize: 12, }}>By clicking "Continue", you agree to the Terms and Privacy Policy</Text>
       </View>
-      <TouchableOpacity style={styles.loginBtn} activeOpacity={0.7} onPress={() => router.navigate('/home')}>
+      <TouchableOpacity style={styles.loginBtn} activeOpacity={0.7} onPress={handleLogin}>
         <Text style={{ fontSize: 16, fontWeight: 700, color: 'white', textAlign: 'center' }}>LogIn</Text>
       </TouchableOpacity>
     </ScrollView >
@@ -50,7 +119,8 @@ const styles = StyleSheet.create({
     height: 48,
     alignSelf: 'center',
     justifyContent: 'center',
-    elevation: 2
+    elevation: 2,
+    borderRadius: 5,
   },
   digiBtn: {
     gap: 15, flexDirection: 'row',
@@ -59,5 +129,21 @@ const styles = StyleSheet.create({
     paddingHorizontal: 15,
     backgroundColor: 'white',
     marginBottom: 40
-  }
+  },
+  input: {
+    backgroundColor: 'white',
+    height: 48,
+    elevation: 2,
+    paddingHorizontal: 15,
+    borderRadius: 5,
+  },
+  errorBorder: {
+    borderColor: 'red',
+    borderWidth: 1,
+  },
+  errorText: {
+    color: 'red',
+    fontSize: 12,
+    marginTop: 5,
+  },
 })

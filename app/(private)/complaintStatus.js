@@ -7,10 +7,18 @@ import CheckStatus from '../../components/checkStatus'
 export default function ComplaintStatus() {
 
     const [showStatus, setShowStatus] = useState(false);
+    const [complaintId, setComplaintId] = useState('');
+    const [error, setError] = useState(false);
 
     // Function to handle checking status
     async function checkStatus() {
-        setShowStatus(true);
+
+        if (complaintId.length !== 5 || isNaN(complaintId)) {
+            setError(true);
+        } else {
+            setError(false);
+            setShowStatus(true);
+        }
     };
 
     return (
@@ -29,8 +37,22 @@ export default function ComplaintStatus() {
             {/* Body */}
             <Text style={{ fontSize: 24, textAlign: 'center', fontWeight: 500 }}>Check Complaint Status</Text>
             <Text style={{ marginTop: 30, color: "#6E6E6E", fontSize: 16, marginBottom: 10 }}>Complaint ID</Text>
-            <TextInput placeholder='67485' style={{ height: 48, width: "100%", backgroundColor: 'white', paddingHorizontal: 15 }}>
+
+            <TextInput placeholder='67485' style={[
+                styles.input,
+                error && styles.inputError // Apply red border if there's an error
+            ]} onChangeText={(text) => {
+                if (/^\d{0,5}$/.test(text)) {
+                    setComplaintId(text);
+                    setError(false);
+                } else {
+                    setError(true);
+                }
+            }}
+                value={complaintId} keyboardType="numeric">
             </TextInput>
+            {error && <Text style={{ color: 'red', marginTop: 5, paddingHorizontal: 2 }}>Please enter a 5-digit number</Text>}
+
             <TouchableOpacity activeOpacity={0.8} style={styles.yellowBar} onPress={() => checkStatus()}>
                 <Text style={{ fontSize: 16, color: 'white', fontWeight: 600, }}>Check Status</Text>
             </TouchableOpacity>
@@ -59,5 +81,17 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         marginTop: 20,
         marginBottom: 30,
+    },
+    input: {
+        height: 48,
+        width: "100%",
+        backgroundColor: 'white',
+        paddingHorizontal: 15,
+        borderWidth: 1,
+        borderColor: 'white',
+        borderRadius: 5,
+    },
+    inputError: {
+        borderColor: 'red', // Border color for error state
     },
 })

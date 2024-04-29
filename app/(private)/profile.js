@@ -1,9 +1,29 @@
-import { View, Text, ScrollView, StyleSheet, TouchableOpacity, Image } from 'react-native'
+import { View, Text, ScrollView, StyleSheet, TouchableOpacity, Image, Alert } from 'react-native'
 import React from 'react'
 import { CarretLeft, ProfileCheck, } from '../../components/icons'
 import { router } from 'expo-router'
 
 export default function Profile() {
+    const handleLogout = async () => {
+        Alert.alert(
+            'Logout',
+            'Are you sure you want to logout?',
+            [
+                {
+                    text: 'No',
+                    style: 'cancel',
+                },
+                {
+                    text: 'Yes',
+                    onPress: async () => {
+                        router.push('/index');
+                    },
+                },
+            ],
+            { cancelable: true }
+        );
+    };
+
     return (
         <ScrollView style={styles.container}>
             {/* Header */}
@@ -55,6 +75,9 @@ export default function Profile() {
                     <Text>Reviews</Text>
                 </View>
             </View>
+            <TouchableOpacity style={styles.logoutBtn} activeOpacity={0.7} onPress={() => handleLogout()}>
+                <Text style={{ fontSize: 16, fontWeight: 700, color: 'white', textAlign: 'center' }}>Logout</Text>
+            </TouchableOpacity>
         </ScrollView>
     )
 }
@@ -87,6 +110,16 @@ const styles = StyleSheet.create({
         height: '100%',
         backgroundColor: '#4ECB71',
         borderRadius: 10,
+    },
+    logoutBtn: {
+        marginTop: 30,
+        backgroundColor: '#ffb831',
+        width: '50%',
+        height: 48,
+        alignSelf: 'center',
+        justifyContent: 'center',
+        elevation: 2,
+        borderRadius: 5,
     },
 })
 

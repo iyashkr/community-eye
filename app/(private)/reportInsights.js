@@ -31,13 +31,21 @@ export default function ReportInsights() {
             </View>
             <View style={{ alignItems: 'center', justifyContent: 'center', gap: 10, marginBottom: 30 }}>
                 <Text style={{ fontSize: 20 }}>Before</Text>
-                <Image source={require('../../assets/images/public/before.png')} style={{ borderRadius: 5 }} />
+                <View style={{ flexDirection: 'row', top: 42, zIndex: 5, marginTop: -25, gap: 100 }}>
+                    <Text style={{ color: 'white' }}>Near Mangwal Hill</Text>
+                    <Text style={{ color: 'white' }}>31 July</Text>
+                </View>
+                <Image source={require('../../assets/images/public/before.png')} style={{ borderRadius: 5, width: "100%", height: 360, objectFit: 'cover' }} />
             </View>
             <View style={{ alignItems: 'center', justifyContent: 'center', gap: 10, marginBottom: 30 }}>
                 <Text style={{ fontSize: 20 }}>After</Text>
-                <Image source={require('../../assets/images/public/before.png')} style={{ borderRadius: 5 }} />
+                <View style={{ flexDirection: 'row', top: 42, zIndex: 5, marginTop: -25, gap: 100 }}>
+                    <Text style={{ color: 'white' }}>Near Mangwal Hill</Text>
+                    <Text style={{ color: 'white' }}>31 July</Text>
+                </View>
+                <Image source={require('../../assets/images/public/after.png')} style={{ borderRadius: 5, width: "100%", height: 360, objectFit: 'cover' }} />
             </View>
-        </ScrollView>
+        </ScrollView >
     )
 }
 

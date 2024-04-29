@@ -47,7 +47,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-between',
-        paddingHorizontal: 40,
+        paddingHorizontal: 30,
         borderTopWidth: 1,
         borderColor: "#706D6D2B",
         backgroundColor: "white"
@@ -56,7 +56,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         height: "100%",
-        width: 60,
+        width: 70,
     },
     icon: {
         justifyContent: 'center',
@@ -67,6 +67,6 @@ const styles = StyleSheet.create({
     activeTab: {
         backgroundColor: "#3278C5",
         height: "100%",
-        width: 60,
+        width: 70,
     }
 });

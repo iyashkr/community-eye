@@ -22,7 +22,7 @@ export default function News() {
     const newsData = [
         {
             id: 1,
-            imageUrl: require('../../assets/images/public/testImage.png'),
+            image: "https://picsum.photos/370/260?grayscale",
             title: 'Check latest laws implemented by Indora police for public safety.',
             location: 'Indora',
             time: '7:30pm',
@@ -30,7 +30,7 @@ export default function News() {
         },
         {
             id: 2,
-            imageUrl: require('../../assets/images/public/testImage.png'),
+            image: "https://picsum.photos/id/55/370/260",
             title: 'New educational reforms announced by the government.',
             location: 'City Center',
             time: '10:45am',
@@ -38,7 +38,7 @@ export default function News() {
         },
         {
             id: 3,
-            imageUrl: require('../../assets/images/public/testImage.png'),
+            image: "https://picsum.photos/id/100/370/260",
             title: 'Launch of new healthcare initiative to combat COVID-19.',
             location: 'Hospital Road',
             time: '2:15pm',
@@ -46,7 +46,7 @@ export default function News() {
         },
         {
             id: 4,
-            imageUrl: require('../../assets/images/public/testImage.png'),
+            image: "https://picsum.photos/id/400/370/260",
             title: 'Traffic advisory for upcoming festival season.',
             location: 'Highway Junction',
             time: '4:20pm',
@@ -54,7 +54,7 @@ export default function News() {
         },
         {
             id: 5,
-            imageUrl: require('../../assets/images/public/testImage.png'),
+            image: "https://picsum.photos/id/500/370/260",
             title: 'Local sports club announces upcoming tournaments.',
             location: 'Sports Complex',
             time: '8:00am',
@@ -62,7 +62,7 @@ export default function News() {
         },
         {
             id: 6,
-            imageUrl: require('../../assets/images/public/testImage.png'),
+            image: "https://picsum.photos/id/26/370/260",
             title: 'New store opening in downtown area with special discounts.',
             location: 'Main Street',
             time: '11:30am',
@@ -70,7 +70,7 @@ export default function News() {
         },
         {
             id: 7,
-            imageUrl: require('../../assets/images/public/testImage.png'),
+            image: "https://picsum.photos/id/143/370/260",
             title: 'Community clean-up event organized by local volunteers.',
             location: 'Park Avenue',
             time: '3:45pm',
@@ -78,7 +78,7 @@ export default function News() {
         },
         {
             id: 8,
-            imageUrl: require('../../assets/images/public/testImage.png'),
+            image: "https://picsum.photos/id/110/370/260",
             title: 'Celebration of World Environment Day at Green Park.',
             location: 'Green Park',
             time: '9:00am',
@@ -86,7 +86,7 @@ export default function News() {
         },
         {
             id: 9,
-            imageUrl: require('../../assets/images/public/testImage.png'),
+            image: "https://picsum.photos/id/292/370/260",
             title: 'Food festival featuring diverse cuisines from around the world.',
             location: 'Food Street',
             time: '6:30pm',
@@ -94,7 +94,7 @@ export default function News() {
         },
         {
             id: 10,
-            imageUrl: require('../../assets/images/public/testImage.png'),
+            image: "https://picsum.photos/id/444/370/260",
             title: 'Book fair showcasing latest literary works and authors.',
             location: 'Library Lane',
             time: '12:00pm',
@@ -109,7 +109,7 @@ export default function News() {
             style={styles.newsBar}
             onPress={() => router.navigate('/readnews')}
         >
-            <Image style={{ height: 65, width: 65, borderRadius: 5, }} source={item.imageUrl} />
+            <Image style={{ height: 65, width: 65, borderRadius: 5, }} source={{ uri: item.image }} />
             <View style={styles.newsDetails}>
                 <Text style={styles.newsTitle}>{item.title}</Text>
                 <View style={styles.newsMetadata}>
