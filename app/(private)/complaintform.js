@@ -175,9 +175,9 @@ const styles = StyleSheet.create({
     yellowBar: {
         borderRadius: 5,
         backgroundColor: "#FCB226",
-        width: "55%", height: 48,
+        width: "60%", height: 48,
         alignSelf: 'center',
-        paddingHorizontal: 20,
+        paddingHorizontal: 10,
         justifyContent: 'center',
         alignItems: 'center',
         marginTop: 15,

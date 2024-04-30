@@ -46,27 +46,28 @@ export default function AdminHome() {
             <View style={{ marginVertical: 15, gap: 15 }}>
                 <View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
                     <TouchableOpacity style={{ alignItems: 'center', justifyContent: 'center', elevation: 4, backgroundColor: 'white', borderRadius: 5 }}
-                        activeOpacity={0.7} onPress={() => router.navigate('/capture')}>
+                        activeOpacity={0.7} onPress={() => router.navigate('/departmentCases')}>
                         <Image source={require('../../assets/images/public/damagedRoads.png')} style={{ width: 160, height: 150 }} />
                         <View style={styles.categoryTextContainer}>
                             <Text style={[styles.categoryText, { fontWeight: 600 }]}>Damaged Roads</Text>
                         </View>
                     </TouchableOpacity>
-                    <TouchableOpacity style={{ alignItems: 'center', justifyContent: 'center', elevation: 4, backgroundColor: 'white', borderRadius: 5 }} activeOpacity={0.7}>
-                        <Image source={require('../../assets/images/public/missingSignBoards.png')} style={{ width: 160, height: 150 }} />
+                    <TouchableOpacity style={{ alignItems: 'center', justifyContent: 'center', elevation: 4, backgroundColor: 'white', borderRadius: 5 }}
+                        activeOpacity={0.7} onPress={() => router.navigate('/departmentCases')}>
+                        <Image source={require('../../assets/images/public/missingSignBoards.png')} style={{ width: 160, height: 150 }} onPress={() => router.navigate('/departmentCases')} />
                         <View style={styles.categoryTextContainer}>
                             <Text style={[styles.categoryText, { fontWeight: 600 }]}>Missing Sign Boards</Text>
                         </View>
                     </TouchableOpacity>
                 </View>
                 <View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
-                    <TouchableOpacity style={{ alignItems: 'center', justifyContent: 'center', elevation: 4, backgroundColor: 'white', borderRadius: 5 }} activeOpacity={0.7}>
+                    <TouchableOpacity style={{ alignItems: 'center', justifyContent: 'center', elevation: 4, backgroundColor: 'white', borderRadius: 5 }} activeOpacity={0.7} onPress={() => router.navigate('/departmentCases')}>
                         <Image source={require('../../assets/images/public/accidentProneArea.png')} style={{ width: 160, height: 150 }} />
                         <View style={styles.categoryTextContainer}>
                             <Text style={[styles.categoryText, { fontWeight: 600 }]}>Accident Prone Area</Text>
                         </View>
                     </TouchableOpacity>
-                    <TouchableOpacity style={{ alignItems: 'center', justifyContent: 'center', elevation: 4, backgroundColor: 'white', borderRadius: 5 }} activeOpacity={0.7}>
+                    <TouchableOpacity style={{ alignItems: 'center', justifyContent: 'center', elevation: 4, backgroundColor: 'white', borderRadius: 5 }} activeOpacity={0.7} onPress={() => router.navigate('/departmentCases')}>
                         <Image source={require('../../assets/images/public/infrastructure.png')} style={{ width: 160, height: 150 }} />
                         <View style={styles.categoryTextContainer}>
                             <Text style={[styles.categoryText, { fontWeight: 600 }]}>Infrastructure</Text>
@@ -74,27 +75,13 @@ export default function AdminHome() {
                     </TouchableOpacity>
                 </View>
                 <View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
-                    <TouchableOpacity style={{ alignItems: 'center', justifyContent: 'center', elevation: 4, backgroundColor: 'white', borderRadius: 5 }} activeOpacity={0.7}>
+                    <TouchableOpacity style={{ alignItems: 'center', justifyContent: 'center', elevation: 4, backgroundColor: 'white', borderRadius: 5 }} activeOpacity={0.7} onPress={() => router.navigate('/departmentCases')}>
                         <Image source={require('../../assets/images/public/accidentProneArea.png')} style={{ width: 160, height: 150 }} />
                         <View style={styles.categoryTextContainer}>
                             <Text style={[styles.categoryText, { fontWeight: 600 }]}>Accident Prone Area</Text>
                         </View>
                     </TouchableOpacity>
-                    <TouchableOpacity style={{ alignItems: 'center', justifyContent: 'center', elevation: 4, backgroundColor: 'white', borderRadius: 5 }} activeOpacity={0.7}>
-                        <Image source={require('../../assets/images/public/infrastructure.png')} style={{ width: 160, height: 150 }} />
-                        <View style={styles.categoryTextContainer}>
-                            <Text style={[styles.categoryText, { fontWeight: 600 }]}>Infrastructure</Text>
-                        </View>
-                    </TouchableOpacity>
-                </View>
-                <View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
-                    <TouchableOpacity style={{ alignItems: 'center', justifyContent: 'center', elevation: 4, backgroundColor: 'white', borderRadius: 5 }} activeOpacity={0.7}>
-                        <Image source={require('../../assets/images/public/accidentProneArea.png')} style={{ width: 160, height: 150 }} />
-                        <View style={styles.categoryTextContainer}>
-                            <Text style={[styles.categoryText, { fontWeight: 600 }]}>Accident Prone Area</Text>
-                        </View>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={{ alignItems: 'center', justifyContent: 'center', elevation: 4, backgroundColor: 'white', borderRadius: 5 }} activeOpacity={0.7}>
+                    <TouchableOpacity style={{ alignItems: 'center', justifyContent: 'center', elevation: 4, backgroundColor: 'white', borderRadius: 5 }} activeOpacity={0.7} onPress={() => router.navigate('/departmentCases')}>
                         <Image source={require('../../assets/images/public/infrastructure.png')} style={{ width: 160, height: 150 }} />
                         <View style={styles.categoryTextContainer}>
                             <Text style={[styles.categoryText, { fontWeight: 600 }]}>Infrastructure</Text>

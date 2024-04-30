@@ -1,6 +1,7 @@
 import { View, Text, ScrollView, StyleSheet, Image, TouchableOpacity } from 'react-native'
 import React from 'react'
 import { router } from 'expo-router';
+import { Camera, CameraType } from 'expo-camera';
 
 export default function Home() {
     return (

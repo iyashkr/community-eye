@@ -1,9 +1,24 @@
 import { Image, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
-import React from 'react'
+import React, { useState } from 'react'
 import { AdminLogin, ShieldIcon } from '../components/icons'
 import { router } from 'expo-router'
+import { FIREBASE_AUTH } from '../firebaseConfig'
 
 export default function AdminLoginPage() {
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const auth = FIREBASE_AUTH;
+
+    const login = async () => {
+        try {
+            const user = await auth.signInWithEmailAndPassword(email, password);
+            console.log(user);
+            router.navigate('adminhome');
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
     return (
         <ScrollView style={styles.container}>
             <View style={{ alignItems: 'center', marginVertical: 30 }}>
@@ -15,14 +30,14 @@ export default function AdminLoginPage() {
             <View style={{ gap: 20 }}>
                 <View>
                     <Text style={{ fontSize: 16, color: "#6E6E6E", marginBottom: 10 }}>Email</Text>
-                    <TextInput placeholder='Enter your Email'
-                        style={{ backgroundColor: 'white', height: 48, elevation: 2, paddingHorizontal: 15 }}>
+                    <TextInput placeholder='Enter your Email' keyboardType='email-address' onChangeText={(text) => setEmail(text)}
+                        value={email} style={{ backgroundColor: 'white', height: 48, elevation: 2, paddingHorizontal: 15 }}>
                     </TextInput>
                 </View>
                 <View>
                     <Text style={{ fontSize: 16, color: "#6E6E6E", marginBottom: 10 }}>Password</Text>
-                    <TextInput placeholder='*************'
-                        style={{ backgroundColor: 'white', height: 48, elevation: 2, paddingHorizontal: 15 }}>
+                    <TextInput placeholder='*************' secureTextEntry={true} onChangeText={(text) => setPassword(text)}
+                        value={password} style={{ backgroundColor: 'white', height: 48, elevation: 2, paddingHorizontal: 15 }}>
                     </TextInput>
                 </View>
             </View>
