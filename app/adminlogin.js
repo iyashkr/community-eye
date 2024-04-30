@@ -1,8 +1,11 @@
-import { Image, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
+import { Alert, Image, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
 import React, { useState } from 'react'
 import { AdminLogin, ShieldIcon } from '../components/icons'
 import { router } from 'expo-router'
 import { FIREBASE_AUTH } from '../firebaseConfig'
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth'
+import AsyncStorage from '@react-native-async-storage/async-storage'
+
 
 export default function AdminLoginPage() {
     const [email, setEmail] = useState('');
@@ -11,11 +14,25 @@ export default function AdminLoginPage() {
 
     const login = async () => {
         try {
-            const user = await auth.signInWithEmailAndPassword(email, password);
+            const user = await signInWithEmailAndPassword(auth, email, password);
             console.log(user);
-            router.navigate('adminhome');
+            await AsyncStorage.setItem('role', 'admin');
+            router.replace('/adminHome');
         } catch (error) {
             console.log(error);
+            Alert.alert('LogIn failed: ' + error.message);
+        }
+    }
+    const signup = async () => {
+        try {
+            const user = await createUserWithEmailAndPassword(auth, email, password);
+            console.log(user);
+            await AsyncStorage.setItem('role', 'admin');
+            router.replace('/adminHome');
+        }
+        catch (error) {
+            console.log(error);
+            Alert.alert('Sign Up failed: ' + error.message);
         }
     }
 
@@ -45,9 +62,14 @@ export default function AdminLoginPage() {
                 <ShieldIcon />
                 <Text style={{ flex: 1, color: "#828282", fontSize: 12, }}>By clicking "Continue", you agree to the Terms and Privacy Policy</Text>
             </View>
-            <TouchableOpacity style={styles.loginBtn} activeOpacity={0.7} onPress={() => router.navigate('/adminHome')}>
-                <Text style={{ fontSize: 16, fontWeight: 700, color: 'white', textAlign: 'center' }}>LogIn</Text>
-            </TouchableOpacity>
+            <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                <TouchableOpacity style={styles.signupBtn} activeOpacity={0.7} onPress={() => signup()}>
+                    <Text style={{ fontSize: 16, fontWeight: 700, color: '#ffb831', textAlign: 'center' }}>Sign Up</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.loginBtn} activeOpacity={0.7} onPress={() => login()}>
+                    <Text style={{ fontSize: 16, fontWeight: 700, color: 'white', textAlign: 'center' }}>Log In</Text>
+                </TouchableOpacity>
+            </View>
         </ScrollView >
     )
 }
@@ -62,11 +84,24 @@ const styles = StyleSheet.create({
     loginBtn: {
         marginTop: 30,
         backgroundColor: '#ffb831',
-        width: '50%',
+        width: '45%',
         height: 48,
         alignSelf: 'center',
         justifyContent: 'center',
-        elevation: 2
+        elevation: 2,
+        borderRadius: 5,
+    },
+    signupBtn: {
+        marginTop: 30,
+        width: '45%',
+        height: 48,
+        alignSelf: 'center',
+        justifyContent: 'center',
+        elevation: 2,
+        borderWidth: 1,
+        borderColor: '#ffb831',
+        backgroundColor: 'white',
+        borderRadius: 5,
     },
     digiBtn: {
         gap: 15, flexDirection: 'row',

@@ -1,9 +1,71 @@
 import { View, Text, ScrollView, StyleSheet, Image, TouchableOpacity } from 'react-native'
-import React from 'react'
+import React, { useState } from 'react'
 import { router } from 'expo-router';
-import { Camera, CameraType } from 'expo-camera';
+import * as ImagePicker from 'expo-image-picker';
+import { getStorage, ref, uploadBytesResumable, getDownloadURL, uploadString } from "firebase/storage";
+
 
 export default function Home() {
+
+    const pickImage = async () => {
+        // No permissions request is necessary for launching the image library
+        let result = await ImagePicker.launchCameraAsync({
+            mediaTypes: ImagePicker.MediaTypeOptions.All,
+            allowsEditing: true,
+            // aspect: [9, 16],
+            quality: 1,
+        });
+
+        console.log(result);
+
+        if (!result.canceled) {
+            const image = result.assets[0].uri;
+            const storage = getStorage();
+            let filename = image.split('/').pop();
+            let match = /\.(\w+)$/.exec(filename);
+            let type = match ? `image/${match[1]}` : `image`;
+
+            const metadata = {
+                contentType: type
+            };
+            const storageRef = ref(storage, `images/${filename}`);
+
+
+            const uploadTask = uploadBytesResumable(storageRef, image, metadata);
+
+            uploadTask.on('state_changed',
+                (snapshot) => {
+                    const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                    console.log('Upload is ' + progress + '% done');
+                    switch (snapshot.state) {
+                        case 'paused':
+                            console.log('Upload is paused');
+                            break;
+                        case 'running':
+                            console.log('Upload is running');
+                            break;
+                    }
+                },
+                (error) => {
+                    // Handle unsuccessful uploads
+                },
+                () => {
+                    getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+                        router.push(
+                            {
+                                pathname: '/complaintform',
+                                params: {
+                                    image: downloadURL
+                                }
+                            }
+                        );
+                    });
+                }
+            );
+
+        }
+    };
+
     return (
         <ScrollView style={styles.container}>
             <Image source={require('../../assets/images/public/pmalogo.png')}
@@ -34,13 +96,13 @@ export default function Home() {
             <View style={{ marginVertical: 15, gap: 15 }}>
                 <View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
                     <TouchableOpacity style={{ alignItems: 'center', justifyContent: 'center', elevation: 4, backgroundColor: 'white', borderRadius: 5 }}
-                        activeOpacity={0.7} onPress={() => router.navigate('/capture')}>
+                        activeOpacity={0.7} onPress={() => pickImage()}>
                         <Image source={require('../../assets/images/public/damagedRoads.png')} style={{ width: 160, height: 150 }} />
                         <View style={styles.categoryTextContainer}>
                             <Text style={[styles.categoryText, { fontWeight: 600 }]}>Damaged Roads</Text>
                         </View>
                     </TouchableOpacity>
-                    <TouchableOpacity style={{ alignItems: 'center', justifyContent: 'center', elevation: 4, backgroundColor: 'white', borderRadius: 5 }} activeOpacity={0.7}>
+                    <TouchableOpacity style={{ alignItems: 'center', justifyContent: 'center', elevation: 4, backgroundColor: 'white', borderRadius: 5 }} activeOpacity={0.7} onPress={() => pickImage()}>
                         <Image source={require('../../assets/images/public/missingSignBoards.png')} style={{ width: 160, height: 150 }} />
                         <View style={styles.categoryTextContainer}>
                             <Text style={[styles.categoryText, { fontWeight: 600 }]}>Missing Sign Boards</Text>
@@ -48,13 +110,13 @@ export default function Home() {
                     </TouchableOpacity>
                 </View>
                 <View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
-                    <TouchableOpacity style={{ alignItems: 'center', justifyContent: 'center', elevation: 4, backgroundColor: 'white', borderRadius: 5 }} activeOpacity={0.7}>
+                    <TouchableOpacity style={{ alignItems: 'center', justifyContent: 'center', elevation: 4, backgroundColor: 'white', borderRadius: 5 }} activeOpacity={0.7} onPress={() => pickImage()}>
                         <Image source={require('../../assets/images/public/accidentProneArea.png')} style={{ width: 160, height: 150 }} />
                         <View style={styles.categoryTextContainer}>
                             <Text style={[styles.categoryText, { fontWeight: 600 }]}>Accident Prone Area</Text>
                         </View>
                     </TouchableOpacity>
-                    <TouchableOpacity style={{ alignItems: 'center', justifyContent: 'center', elevation: 4, backgroundColor: 'white', borderRadius: 5 }} activeOpacity={0.7}>
+                    <TouchableOpacity style={{ alignItems: 'center', justifyContent: 'center', elevation: 4, backgroundColor: 'white', borderRadius: 5 }} activeOpacity={0.7} onPress={() => pickImage()}>
                         <Image source={require('../../assets/images/public/infrastructure.png')} style={{ width: 160, height: 150 }} />
                         <View style={styles.categoryTextContainer}>
                             <Text style={[styles.categoryText, { fontWeight: 600 }]}>Infrastructure</Text>
@@ -62,27 +124,13 @@ export default function Home() {
                     </TouchableOpacity>
                 </View>
                 <View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
-                    <TouchableOpacity style={{ alignItems: 'center', justifyContent: 'center', elevation: 4, backgroundColor: 'white', borderRadius: 5 }} activeOpacity={0.7}>
+                    <TouchableOpacity style={{ alignItems: 'center', justifyContent: 'center', elevation: 4, backgroundColor: 'white', borderRadius: 5 }} activeOpacity={0.7} onPress={() => pickImage()}>
                         <Image source={require('../../assets/images/public/accidentProneArea.png')} style={{ width: 160, height: 150 }} />
                         <View style={styles.categoryTextContainer}>
                             <Text style={[styles.categoryText, { fontWeight: 600 }]}>Accident Prone Area</Text>
                         </View>
                     </TouchableOpacity>
-                    <TouchableOpacity style={{ alignItems: 'center', justifyContent: 'center', elevation: 4, backgroundColor: 'white', borderRadius: 5 }} activeOpacity={0.7}>
-                        <Image source={require('../../assets/images/public/infrastructure.png')} style={{ width: 160, height: 150 }} />
-                        <View style={styles.categoryTextContainer}>
-                            <Text style={[styles.categoryText, { fontWeight: 600 }]}>Infrastructure</Text>
-                        </View>
-                    </TouchableOpacity>
-                </View>
-                <View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
-                    <TouchableOpacity style={{ alignItems: 'center', justifyContent: 'center', elevation: 4, backgroundColor: 'white', borderRadius: 5 }} activeOpacity={0.7}>
-                        <Image source={require('../../assets/images/public/accidentProneArea.png')} style={{ width: 160, height: 150 }} />
-                        <View style={styles.categoryTextContainer}>
-                            <Text style={[styles.categoryText, { fontWeight: 600 }]}>Accident Prone Area</Text>
-                        </View>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={{ alignItems: 'center', justifyContent: 'center', elevation: 4, backgroundColor: 'white', borderRadius: 5 }} activeOpacity={0.7}>
+                    <TouchableOpacity style={{ alignItems: 'center', justifyContent: 'center', elevation: 4, backgroundColor: 'white', borderRadius: 5 }} activeOpacity={0.7} onPress={() => pickImage()}>
                         <Image source={require('../../assets/images/public/infrastructure.png')} style={{ width: 160, height: 150 }} />
                         <View style={styles.categoryTextContainer}>
                             <Text style={[styles.categoryText, { fontWeight: 600 }]}>Infrastructure</Text>

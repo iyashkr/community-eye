@@ -16,7 +16,7 @@ export default function Profile() {
                 {
                     text: 'Yes',
                     onPress: async () => {
-                        router.push('/index');
+                        router.replace('/');
                     },
                 },
             ],

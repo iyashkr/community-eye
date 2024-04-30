@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, ScrollView, Image, StyleSheet, TextInput, TouchableOpacity } from 'react-native';
 import { AudioIcon, CarretLeft, MicIcon, ShieldIcon } from '../../components/icons';
-import { router } from 'expo-router'; // Import the router
+import { router, useLocalSearchParams } from 'expo-router'; // Import the router
 import * as Location from 'expo-location';
 import { Audio } from 'expo-av';
 
@@ -11,6 +11,8 @@ export default function ComplaintForm() {
     const [isRecording, setIsRecording] = useState(false);
     const [recording, setRecording] = useState(null);
     const [errorMessage, setErrorMessage] = useState(null);
+    const params = useLocalSearchParams(); // Get the search params from the URL
+
 
     const handleSubmit = () => {
         if (location) {
@@ -22,6 +24,7 @@ export default function ComplaintForm() {
     };
 
     useEffect(() => {
+        console.log(params.image);
         fetchLocation();
     }, []);
 
@@ -101,9 +104,8 @@ export default function ComplaintForm() {
             {/* body */}
             <Text style={{ fontSize: 24, textAlign: 'center', fontWeight: '500' }}>Describe your Complaint</Text>
             <View style={{ flexDirection: 'row', gap: 10, alignItems: 'center', justifyContent: 'space-between', marginTop: 10 }}>
-                <View style={{ flex: 1 }}>
-                    <Image source={require('../../assets/images/public/testImage.png')} />
-                </View>
+
+                <Image source={{ uri: params.image }} style={{ height: 80, width: 45, backgroundColor: 'green' }} />
                 <TextInput style={styles.writeComplaint} multiline={true}
                     numberOfLines={3} placeholder="Write your complaint" />
             </View>
@@ -141,7 +143,6 @@ export default function ComplaintForm() {
                 </TextInput>
             </View>
             {/* Location (conditionally displayed based on permission and error) */}
-            {errorMessage && <Text style={styles.errorText}>{errorMessage}</Text>}
             {location && (
                 <View style={{ gap: 10, marginTop: 20, marginBottom: 10 }}>
                     <Text style={{ fontSize: 16, color: "#6E6E6E" }}>Location</Text>

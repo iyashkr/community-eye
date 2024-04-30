@@ -2,6 +2,7 @@ import { Image, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View 
 import React, { useState } from 'react'
 import { AdminLogin, ShieldIcon } from '../components/icons'
 import { router } from 'expo-router'
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function Index() {
   const aadharData = [
@@ -51,11 +52,12 @@ export default function Index() {
   const [error, setError] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
 
-  const handleLogin = () => {
+  const handleLogin = async () => {
     const strippedText = aadharNum.replace(/-/g, '');
     const matchingAadhar = aadharData.find(item => item.aadharNumber === strippedText);
     if (matchingAadhar) {
-      router.navigate('/home');
+      await AsyncStorage.setItem('role', 'user');
+      router.replace('/home');
       console.log('Login successful');
       setError(false); // Reset error state
     } else if (strippedText.length === 16 && !matchingAadhar) {
@@ -77,7 +79,7 @@ export default function Index() {
       </View>
       <TouchableOpacity style={styles.digiBtn} activeOpacity={0.7} onPress={() => router.navigate('/adminlogin')}>
         <AdminLogin />
-        <Text style={{ fontSize: 16 }}>Continue with E-AADHAR</Text>
+        <Text style={{ fontSize: 16 }}>Admin Login Portal</Text>
       </TouchableOpacity>
       <View style={{ flexDirection: 'row', gap: 10, alignItems: 'center', justifyContent: 'center', marginBottom: 40 }}>
         <View style={{ borderBottomWidth: 1, width: "32%", borderColor: "#AAAAAA" }}></View>
@@ -123,7 +125,7 @@ const styles = StyleSheet.create({
     borderRadius: 5,
   },
   digiBtn: {
-    gap: 15, flexDirection: 'row',
+    gap: 18, flexDirection: 'row',
     alignItems: 'center',
     elevation: 2, height: 64,
     paddingHorizontal: 15,

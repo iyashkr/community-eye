@@ -11,7 +11,7 @@ export default function AdminHome() {
             <View style={{ marginBottom: 50, paddingHorizontal: 10 }}>
                 <View style={{ gap: 10 }}>
                     <View style={{ flexDirection: 'row', justifyContent: 'space-between', paddingTop: 20 }}>
-                        <Text style={{ fontWeight: 600 }}>Total Panding Case</Text>
+                        <Text style={{ fontWeight: 600 }}>Total Pending Case</Text>
                         <Text style={{ color: '#e30d0d', fontWeight: 700 }}>- LIVE</Text>
                     </View>
                     <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
