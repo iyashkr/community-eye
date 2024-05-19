@@ -76,10 +76,10 @@ export default function AdminLoginPage() {
                 <ShieldIcon />
                 <Text style={{ flex: 1, color: "#828282", fontSize: 12, }}>By clicking "Continue", you agree to the Terms and Privacy Policy</Text>
             </View>
-            <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-                <TouchableOpacity style={styles.signupBtn} activeOpacity={0.7} onPress={() => signup()}>
+            <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
+                {/* <TouchableOpacity style={styles.signupBtn} activeOpacity={0.7} onPress={() => signup()}>
                     <Text style={{ fontSize: 16, fontWeight: 700, color: '#ffb831', textAlign: 'center' }}>Sign Up</Text>
-                </TouchableOpacity>
+                </TouchableOpacity> */}
                 <TouchableOpacity style={styles.loginBtn} activeOpacity={0.7} onPress={() => login()}>
                     <Text style={{ fontSize: 16, fontWeight: 700, color: 'white', textAlign: 'center' }}>Log In</Text>
                 </TouchableOpacity>
