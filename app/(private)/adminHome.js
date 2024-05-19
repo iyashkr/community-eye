@@ -1,8 +1,35 @@
 import { View, Text, ScrollView, StyleSheet, Image, TouchableOpacity } from 'react-native'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { router } from 'expo-router';
+import { query } from 'firebase/database';
+import { collection, getDocs } from 'firebase/firestore';
+import { FIREBASE_DB } from '../../firebaseConfig';
 
 export default function AdminHome() {
+    const [solvedCased, setSolvedCased] = useState(0);
+    const [unsolvedCased, setUnsolvedCased] = useState(0);
+
+
+    useEffect(() => {
+        async function getCount() {
+            const queryDoc = query(collection(FIREBASE_DB, "complaints"))
+            const docSnapshot = await getDocs(queryDoc);
+            let sCount = 0;
+            let uCount = 0;
+            docSnapshot.docs.forEach((doc) => {
+                const docData = doc.data();
+                if (docData.status = "pending") {
+                    uCount += 1;
+                }
+                else {
+                    sCount += 1
+                }
+            });
+            setSolvedCased(sCount)
+            setUnsolvedCased(uCount)
+        }
+        getCount()
+    }, [])
     return (
         <ScrollView style={styles.container}>
             <Image source={require('../../assets/images/public/pmalogo.png')}
@@ -15,14 +42,9 @@ export default function AdminHome() {
                         <Text style={{ color: '#e30d0d', fontWeight: 700 }}>- LIVE</Text>
                     </View>
                     <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-                        <View style={styles.numbers}><Text style={{ fontSize: 15, fontWeight: 600, color: 'white' }}>0</Text></View>
-                        <View style={styles.numbers}><Text style={{ fontSize: 15, fontWeight: 600, color: 'white' }}>0</Text></View>
-                        <View style={styles.numbers}><Text style={{ fontSize: 15, fontWeight: 600, color: 'white' }}>0</Text></View>
-                        <View style={styles.numbers}><Text style={{ fontSize: 15, fontWeight: 600, color: 'white' }}>0</Text></View>
-                        <View style={styles.numbers}><Text style={{ fontSize: 15, fontWeight: 600, color: 'white' }}>0</Text></View>
-                        <View style={styles.numbers}><Text style={{ fontSize: 15, fontWeight: 600, color: 'white' }}>0</Text></View>
-                        <View style={styles.numbers}><Text style={{ fontSize: 15, fontWeight: 600, color: 'white' }}>0</Text></View>
-                        <View style={styles.numbers}><Text style={{ fontSize: 15, fontWeight: 600, color: 'white' }}>0</Text></View>
+                        {unsolvedCased.toString().padStart(8, '0').split("").map((digit, index) => (
+                            <View key={index} style={styles.numbers}><Text style={{ fontSize: 15, fontWeight: 600, color: 'white' }}>{digit}</Text></View>
+                        ))}
                     </View>
                 </View>
                 <View style={{ gap: 10 }}>
@@ -31,14 +53,9 @@ export default function AdminHome() {
                         <Text style={{ color: '#e30d0d', fontWeight: 700 }}>- LIVE</Text>
                     </View>
                     <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-                        <View style={styles.numbers}><Text style={{ fontSize: 15, fontWeight: 600, color: 'white' }}>0</Text></View>
-                        <View style={styles.numbers}><Text style={{ fontSize: 15, fontWeight: 600, color: 'white' }}>0</Text></View>
-                        <View style={styles.numbers}><Text style={{ fontSize: 15, fontWeight: 600, color: 'white' }}>0</Text></View>
-                        <View style={styles.numbers}><Text style={{ fontSize: 15, fontWeight: 600, color: 'white' }}>0</Text></View>
-                        <View style={styles.numbers}><Text style={{ fontSize: 15, fontWeight: 600, color: 'white' }}>0</Text></View>
-                        <View style={styles.numbers}><Text style={{ fontSize: 15, fontWeight: 600, color: 'white' }}>0</Text></View>
-                        <View style={styles.numbers}><Text style={{ fontSize: 15, fontWeight: 600, color: 'white' }}>0</Text></View>
-                        <View style={styles.numbers}><Text style={{ fontSize: 15, fontWeight: 600, color: 'white' }}>0</Text></View>
+                        {solvedCased.toString().padStart(8, '0').split("").map((digit, index) => (
+                            <View key={index} style={styles.numbers}><Text style={{ fontSize: 15, fontWeight: 600, color: 'white' }}>{digit}</Text></View>
+                        ))}
                     </View>
                 </View>
             </View>

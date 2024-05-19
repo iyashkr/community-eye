@@ -3,19 +3,32 @@ import React, { useState } from 'react'
 import { CarretLeft } from '../../components/icons'
 import { router } from 'expo-router'
 import CheckStatus from '../../components/checkStatus'
+import { doc, getDoc } from 'firebase/firestore'
+import { FIREBASE_DB } from '../../firebaseConfig'
 
 export default function ComplaintStatus() {
 
     const [showStatus, setShowStatus] = useState(false);
     const [complaintId, setComplaintId] = useState('');
     const [error, setError] = useState(false);
+    const [errorMessage, setErrorMessage] = useState("");
+    const [data, setData] = useState({});
+
 
     // Function to handle checking status
     async function checkStatus() {
 
         if (complaintId.length !== 5 || isNaN(complaintId)) {
             setError(true);
-        } else {
+        }
+        else {
+            const document = await getDoc(doc(FIREBASE_DB, "complaints", complaintId));
+            if (!document.exists) {
+                setError(true)
+                setErrorMessage("Please enter a valid complaint id")
+                return
+            }
+            setData(document.data())
             setError(false);
             setShowStatus(true);
         }
@@ -58,7 +71,7 @@ export default function ComplaintStatus() {
             </TouchableOpacity>
             <View style={{ borderBottomWidth: 1, width: "100%", borderColor: "#D2D2D2" }}></View>
             <View>
-                {showStatus && <CheckStatus />}
+                {showStatus && <CheckStatus data={data} />}
             </View>
         </ScrollView>
     )

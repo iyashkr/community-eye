@@ -1,15 +1,17 @@
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Slot } from 'expo-router';
 import React from 'react';
-import { View, StyleSheet, Text, TextInput, TouchableOpacity, Image } from 'react-native';
+import { View, StyleSheet, Text, TextInput, TouchableOpacity, Image, KeyboardAvoidingView, Platform } from 'react-native';
 import { StatusBar } from "expo-status-bar";
 
 const Layout = ({ children }) => {
     return (
-        <SafeAreaView style={styles.container}>
-            <StatusBar style="dark" />
-            <Slot />
-        </SafeAreaView>
+        <KeyboardAvoidingView behavior="padding" style={{ flex: 1 }} >
+            <SafeAreaView style={styles.container}>
+                <StatusBar style="dark" backgroundColor='white' />
+                <Slot />
+            </SafeAreaView>
+        </KeyboardAvoidingView>
     );
 };
 

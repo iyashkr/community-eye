@@ -1,70 +1,98 @@
-import { View, Text, ScrollView, StyleSheet, Image, TouchableOpacity } from 'react-native'
-import React, { useState } from 'react'
+import { View, Text, ScrollView, StyleSheet, Image, TouchableOpacity, ActivityIndicator } from 'react-native'
+import React, { useEffect, useState } from 'react'
 import { router } from 'expo-router';
 import * as ImagePicker from 'expo-image-picker';
 import { getStorage, ref, uploadBytesResumable, getDownloadURL, uploadString } from "firebase/storage";
+import { collection, getDocs, query, where } from 'firebase/firestore';
+import { FIREBASE_DB } from '../../firebaseConfig';
 
 
 export default function Home() {
 
+    const [uploading, setUploading] = useState(false);
+    const [progress, setProgress] = useState(0);
+    const [solvedCases, setSolvedCases] = useState(0);
+    const paddedNumber = solvedCases.toString().padStart(8, '0');
+    const digits = paddedNumber.split('');
+
+
+    useEffect(() => {
+        async function getCount() {
+            const queryDoc = query(collection(FIREBASE_DB, "complaints"), where("status", "==", "solved"))
+            const docSnapshot = await getDocs(queryDoc)
+            const docLength = docSnapshot.size;
+            setSolvedCases(docLength)
+        }
+        getCount()
+    }, [])
+
+
+
     const pickImage = async () => {
-        // No permissions request is necessary for launching the image library
+        const hasPermission = await ImagePicker.getCameraPermissionsAsync();
+        if (!hasPermission || !hasPermission.granted) {
+            await ImagePicker.requestCameraPermissionsAsync();
+            return;
+        }
+
         let result = await ImagePicker.launchCameraAsync({
             mediaTypes: ImagePicker.MediaTypeOptions.All,
             allowsEditing: true,
-            // aspect: [9, 16],
-            quality: 1,
+            aspect: [1, 1],
+            quality: 0.4,
         });
-
-        console.log(result);
-
         if (!result.canceled) {
-            const image = result.assets[0].uri;
-            const storage = getStorage();
-            let filename = image.split('/').pop();
-            let match = /\.(\w+)$/.exec(filename);
-            let type = match ? `image/${match[1]}` : `image`;
+            const uri = result.assets[0].uri
+            const fileName = uri.split("/").pop();
+            const { downloadUrl } = await uploadToFirebase(uri, fileName);
+            router.push(
+                {
+                    pathname: '/complaintform',
+                    params: {
+                        image: downloadUrl
+                    }
+                }
+            );
+        }
+    };
 
-            const metadata = {
-                contentType: type
-            };
-            const storageRef = ref(storage, `images/${filename}`);
+    const uploadToFirebase = async (uri, name, onProgress) => {
+        const fetchResponse = await fetch(uri);
+        const theBlob = await fetchResponse.blob();
 
+        const imageRef = ref(getStorage(), `images/${name}`);
 
-            const uploadTask = uploadBytesResumable(storageRef, image, metadata);
+        const uploadTask = uploadBytesResumable(imageRef, theBlob);
 
-            uploadTask.on('state_changed',
+        return new Promise((resolve, reject) => {
+            uploadTask.on("state_changed",
                 (snapshot) => {
                     const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-                    console.log('Upload is ' + progress + '% done');
-                    switch (snapshot.state) {
-                        case 'paused':
-                            console.log('Upload is paused');
-                            break;
-                        case 'running':
-                            console.log('Upload is running');
-                            break;
-                    }
+                    setProgress(progress);
+                    setUploading(true)
+                    onProgress && onProgress(progress);
                 },
                 (error) => {
-                    // Handle unsuccessful uploads
+                    reject(error);
                 },
-                () => {
-                    getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-                        router.push(
-                            {
-                                pathname: '/complaintform',
-                                params: {
-                                    image: downloadURL
-                                }
-                            }
-                        );
+                async () => {
+                    const downloadUrl = await getDownloadURL(uploadTask.snapshot.ref);
+                    resolve({
+                        downloadUrl,
+                        metadata: uploadTask.snapshot.metadata,
                     });
                 }
             );
-
-        }
+        });
     };
+    if (uploading) {
+        return (
+            <View style={{ position: "absolute", backgroundColor: "white", height: "100%", width: "100%", alignItems: "center", justifyContent: "center" }}>
+                <ActivityIndicator size="large" color="blue" />
+                <Text>Uploading {progress.toFixed(0)}%</Text>
+            </View>
+        )
+    }
 
     return (
         <ScrollView style={styles.container}>
@@ -78,18 +106,13 @@ export default function Home() {
                         <Text style={{ color: '#e30d0d', fontWeight: 700 }}>- LIVE</Text>
                     </View>
                     <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-                        <View style={styles.numbers}><Text style={{ fontSize: 15, fontWeight: 600, color: 'white' }}>0</Text></View>
-                        <View style={styles.numbers}><Text style={{ fontSize: 15, fontWeight: 600, color: 'white' }}>0</Text></View>
-                        <View style={styles.numbers}><Text style={{ fontSize: 15, fontWeight: 600, color: 'white' }}>0</Text></View>
-                        <View style={styles.numbers}><Text style={{ fontSize: 15, fontWeight: 600, color: 'white' }}>0</Text></View>
-                        <View style={styles.numbers}><Text style={{ fontSize: 15, fontWeight: 600, color: 'white' }}>0</Text></View>
-                        <View style={styles.numbers}><Text style={{ fontSize: 15, fontWeight: 600, color: 'white' }}>0</Text></View>
-                        <View style={styles.numbers}><Text style={{ fontSize: 15, fontWeight: 600, color: 'white' }}>0</Text></View>
-                        <View style={styles.numbers}><Text style={{ fontSize: 15, fontWeight: 600, color: 'white' }}>0</Text></View>
+                        {digits.map((digit, index) => (
+                            <View key={index} style={styles.numbers}><Text style={{ fontSize: 15, fontWeight: 600, color: 'white' }}>{digit}</Text></View>
+                        ))}
                     </View>
                 </View>
                 <TouchableOpacity activeOpacity={0.8} style={styles.yellowBar} onPress={() => router.navigate('/complaintStatus')}>
-                    <Text style={{ fontSize: 16, color: 'white', fontWeight: 600, }}>Check Complaint Status</Text>
+                    <Text style={{ fontSize: 16, color: 'white', textAlign: "center", fontWeight: 600, width: "100%" }}>Check Complaint Status</Text>
                 </TouchableOpacity>
             </View>
             <Text style={{ fontSize: 16, fontWeight: 500 }}>Select your problem, because we've got the solution!</Text>
@@ -161,7 +184,8 @@ const styles = StyleSheet.create({
     yellowBar: {
         borderRadius: 5,
         backgroundColor: "#FCB226",
-        width: "60%", height: 48,
+        width: "70%",
+        height: 48,
         alignSelf: 'center',
         paddingHorizontal: 20,
         justifyContent: 'center',

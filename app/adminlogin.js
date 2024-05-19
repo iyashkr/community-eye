@@ -1,9 +1,9 @@
 import { Alert, Image, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { AdminLogin, ShieldIcon } from '../components/icons'
 import { router } from 'expo-router'
 import { FIREBASE_AUTH } from '../firebaseConfig'
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth'
+import { createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword } from 'firebase/auth'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 
 
@@ -11,6 +11,20 @@ export default function AdminLoginPage() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const auth = FIREBASE_AUTH;
+
+    useEffect(() => {
+        const unsubscribe = onAuthStateChanged(FIREBASE_AUTH, async (user) => {
+            if (user) {
+                await AsyncStorage.setItem('role', 'admin');
+                router.replace('/adminHome');
+            }
+        })
+
+        return () => {
+            unsubscribe
+        }
+    }, [])
+
 
     const login = async () => {
         try {

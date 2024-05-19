@@ -2,13 +2,13 @@ import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native'
 import React from 'react'
 import { router } from 'expo-router'
 
-export default function CheckStatus() {
+export default function CheckStatus({ data }) {
     return (
         <View style={styles.container}>
             <View style={{ alignItems: 'center', justifyContent: 'center', marginVertical: 30 }}>
                 <Image source={require('../assets/images/public/complaintstatus.png')} />
             </View>
-            <TouchableOpacity activeOpacity={0.7} style={styles.reportBtn} onPress={() => router.navigate('/reportInsights')}>
+            <TouchableOpacity activeOpacity={0.7} style={styles.reportBtn} onPress={() => router.navigate({ pathname: '/reportInsights', params: { data: JSON.stringify(data) } })}>
                 <Text style={[styles.reportText, { fontWeight: 600 }]} >See Report</Text>
             </TouchableOpacity>
         </View>

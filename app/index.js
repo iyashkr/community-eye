@@ -1,4 +1,4 @@
-import { Image, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
+import { Image, KeyboardAvoidingView, Platform, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
 import React, { useState } from 'react'
 import { AdminLogin, ShieldIcon } from '../components/icons'
 import { router } from 'expo-router'
@@ -70,6 +70,7 @@ export default function Index() {
   };
 
   return (
+
     <ScrollView style={styles.container}>
       <View style={{ alignItems: 'center', marginVertical: 30 }}>
         <Image source={require('../assets/images/public/logowithtext.png')} />
@@ -112,7 +113,8 @@ const styles = StyleSheet.create({
     width: "100%",
     height: "100%",
     paddingHorizontal: 30,
-    backgroundColor: "#F5F9FD"
+    backgroundColor: "#F5F9FD",
+    flex: 1
   },
   loginBtn: {
     marginTop: 30,
@@ -125,9 +127,11 @@ const styles = StyleSheet.create({
     borderRadius: 5,
   },
   digiBtn: {
-    gap: 18, flexDirection: 'row',
+    gap: 18,
+    flexDirection: 'row',
     alignItems: 'center',
-    elevation: 2, height: 64,
+    elevation: 2,
+    height: 64,
     paddingHorizontal: 15,
     backgroundColor: 'white',
     marginBottom: 40

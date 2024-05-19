@@ -2,10 +2,12 @@ import React from 'react';
 import { View, StyleSheet } from 'react-native';
 import BottomNav from '../../components/bottomnav';
 import { Slot } from 'expo-router';
+import { StatusBar } from 'expo-status-bar';
 
 const Layout = ({ children }) => {
     return (
         <View style={styles.container}>
+            <StatusBar style="light" />
             <View style={styles.content}>
                 <Slot />
             </View>
@@ -22,6 +24,7 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         height: "100%",
+        backgroundColor: "white"
     },
     content: {
         flex: 1,

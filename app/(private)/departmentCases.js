@@ -1,7 +1,11 @@
 import { View, Text, ScrollView, StyleSheet, TouchableOpacity, Image, FlatList } from 'react-native'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { CarretLeft, LocationIcon, ProfileCheck, SeenEyeIcon, TimeIcon, } from '../../components/icons'
 import { router } from 'expo-router'
+import { query } from 'firebase/database';
+import { collection, getDocs } from 'firebase/firestore';
+import { FIREBASE_DB } from '../../firebaseConfig';
+import moment from 'moment';
 
 export default function DepartmentCases() {
 
@@ -12,6 +16,21 @@ export default function DepartmentCases() {
         }
         return location;
     };
+
+
+    const [cases, setCases] = useState([]);
+
+
+    useEffect(() => {
+        async function getDocument() {
+            const queryDoc = query(collection(FIREBASE_DB, "complaints"))
+            const docSnapshot = await getDocs(queryDoc);
+            const documents = docSnapshot.docs.map(doc => doc.data());
+            setCases(documents)
+        }
+        getDocument()
+    }, [])
+
 
     const todayCases = [
         {
@@ -100,11 +119,7 @@ export default function DepartmentCases() {
     ];
 
     const handlePress = (item) => {
-        if (item.status.toLowerCase() === "solved") {
-            router.navigate('/reportInsights');
-        } else {
-            router.navigate('/unsolvedCases');
-        }
+        router.navigate({ pathname: '/reportInsights', params: { data: JSON.stringify(item) } })
     };
 
     return (
@@ -125,7 +140,7 @@ export default function DepartmentCases() {
             </View>
             {/* Body */}
             <Text style={styles.sectionTitle}>Today</Text>
-            {todayCases.map((item) => (
+            {cases.map((item) => (
                 <TouchableOpacity
                     key={item.id}
                     activeOpacity={0.9}
@@ -133,15 +148,15 @@ export default function DepartmentCases() {
                     onPress={() => handlePress(item)}>
                     <Image style={{ height: 65, width: 65, borderRadius: 5 }} source={{ uri: item.image }} />
                     <View style={styles.newsDetails}>
-                        <Text style={styles.newsTitle}>{item.title}</Text>
+                        <Text style={styles.newsTitle}>{item.complaint}</Text>
                         <View style={styles.newsMetadata}>
-                            <View style={styles.metadataItem}>
+                            {/* <View style={styles.metadataItem}>
                                 <LocationIcon height={12} width={12} />
                                 <Text style={styles.metadataText}>{limitLocationName(item.location)}</Text>
-                            </View>
+                            </View> */}
                             <View style={styles.metadataItem}>
                                 <TimeIcon height={14} width={14} />
-                                <Text style={styles.metadataText}>{item.time}</Text>
+                                <Text style={styles.metadataText}>{moment(item.dateAdded).format("DD/MM/YYYY")}</Text>
                             </View>
                             <View style={styles.metadataItem}>
                                 <SeenEyeIcon height={15} width={15} />
@@ -152,34 +167,7 @@ export default function DepartmentCases() {
                 </TouchableOpacity>
             ))}
 
-            {/* Yesterday */}
-            <Text style={styles.sectionTitle}>Yesterday</Text>
-            {yesterdayCases.map((item) => (
-                <TouchableOpacity
-                    key={item.id}
-                    activeOpacity={0.9}
-                    style={styles.newsBar}
-                    onPress={() => handlePress(item)}>
-                    <Image style={{ height: 65, width: 65, borderRadius: 5 }} source={{ uri: item.image }} />
-                    <View style={styles.newsDetails}>
-                        <Text style={styles.newsTitle}>{item.title}</Text>
-                        <View style={styles.newsMetadata}>
-                            <View style={styles.metadataItem}>
-                                <LocationIcon height={12} width={12} />
-                                <Text style={styles.metadataText}>{limitLocationName(item.location)}</Text>
-                            </View>
-                            <View style={styles.metadataItem}>
-                                <TimeIcon height={14} width={14} />
-                                <Text style={styles.metadataText}>{item.time}</Text>
-                            </View>
-                            <View style={styles.metadataItem}>
-                                <SeenEyeIcon height={15} width={15} />
-                                <Text style={styles.metadataText}>{item.status}</Text>
-                            </View>
-                        </View>
-                    </View>
-                </TouchableOpacity>
-            ))}
+
         </ScrollView>
     );
 }

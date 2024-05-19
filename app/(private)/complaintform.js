@@ -4,27 +4,79 @@ import { AudioIcon, CarretLeft, MicIcon, ShieldIcon } from '../../components/ico
 import { router, useLocalSearchParams } from 'expo-router'; // Import the router
 import * as Location from 'expo-location';
 import { Audio } from 'expo-av';
+import { doc, setDoc } from 'firebase/firestore';
+import { FIREBASE_AUTH, FIREBASE_DB } from '../../firebaseConfig';
+import { onAuthStateChanged } from 'firebase/auth';
 
 export default function ComplaintForm() {
+    const [uid, setUid] = useState(null);
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [location, setLocation] = useState(null);
     const [isRecording, setIsRecording] = useState(false);
     const [recording, setRecording] = useState(null);
+    const [errors, setErrors] = useState({});
+
     const [errorMessage, setErrorMessage] = useState(null);
-    const params = useLocalSearchParams(); // Get the search params from the URL
+    const params = useLocalSearchParams();
 
 
-    const handleSubmit = () => {
-        if (location) {
-            // Use location data (e.g., send it with your API request)
-            console.log('Location:', location);
+    const [image, setImage] = useState("");
+    const [name, setName] = useState("");
+    const [complaint, setComplaint] = useState("");
+
+
+    useEffect(() => {
+        const unsubscribe = onAuthStateChanged(FIREBASE_AUTH, async (user) => {
+            if (user) {
+                setUid(user.uid)
+            }
+        });
+
+        return unsubscribe;
+
+    }, [])
+
+    const generateComplaintId = () => {
+        return Math.floor(10000 + Math.random() * 90000); // Generates a random number between 10000 and 99999
+    };
+    async function handleSubmit() {
+        var newErrors = {};
+        if (complaint.length < 50) {
+            newErrors.complaint = "Please write complaint in more than 50 characters"
         }
-
-        router.push('/successPage');
+        if (name.length < 3) {
+            newErrors.name = "Please enter a valid name"
+        }
+        console.log(newErrors)
+        if (Object.keys(newErrors).length > 0) {
+            setErrors(newErrors)
+            return
+        }
+        const docId = generateComplaintId();
+        const document = {
+            name: name,
+            complaint: complaint,
+            location: location,
+            dateAdded: Date.now(),
+            id: docId,
+            uid: uid,
+            status: "pending",
+            image: image
+        }
+        try {
+            await setDoc(doc(FIREBASE_DB, "complaints", `${document.id}`), document);
+            router.push({ pathname: '/successPage', params: { id: document.id } });
+            console.log("Document successfully created/updated");
+        } catch (error) {
+            console.error("Error creating/updating document:", error);
+            // Handle the error appropriately, e.g., display a user-friendly message
+        }
     };
 
     useEffect(() => {
-        console.log(params.image);
+        const urlParts = params.image.split('/images/');
+        const modifiedUrl = `${urlParts[0]}/images%2F${urlParts[1]}`;
+        setImage(modifiedUrl)
         fetchLocation();
     }, []);
 
@@ -72,7 +124,6 @@ export default function ComplaintForm() {
 
     const fetchLocation = async () => {
         try {
-            // Request location permission (needed for Android 10+)
             const { status } = await Location.requestForegroundPermissionsAsync();
 
             if (status !== 'granted') {
@@ -80,7 +131,6 @@ export default function ComplaintForm() {
                 return;
             }
 
-            // Get current location
             const currentLocation = await Location.getCurrentPositionAsync({});
             setLocation(currentLocation);
         } catch (error) {
@@ -104,11 +154,15 @@ export default function ComplaintForm() {
             {/* body */}
             <Text style={{ fontSize: 24, textAlign: 'center', fontWeight: '500' }}>Describe your Complaint</Text>
             <View style={{ flexDirection: 'row', gap: 10, alignItems: 'center', justifyContent: 'space-between', marginTop: 10 }}>
-
-                <Image source={{ uri: params.image }} style={{ height: 80, width: 45, backgroundColor: 'green' }} />
-                <TextInput style={styles.writeComplaint} multiline={true}
+                {image ?
+                    <Image source={{ uri: image }} style={{ height: 80, width: 45, backgroundColor: 'green' }} />
+                    :
+                    <View style={{ height: 80, width: 45, backgroundColor: 'green' }} />
+                }
+                <TextInput style={[styles.writeComplaint, errors?.complaint && styles.error]} onChangeText={text => setComplaint(text)} multiline={true}
                     numberOfLines={3} placeholder="Write your complaint" />
             </View>
+            {errors.complaint && <Text style={{ color: "#AAAAAA", paddingLeft: 55, fontSize: 14 }}>{errors?.complaint}</Text>}
             <Text style={{ color: "#AAAAAA", textAlign: 'center', fontSize: 14 }}>or</Text>
             {errorMessage && <Text style={styles.errorText}>{errorMessage}</Text>}
             {recording ? (
@@ -138,8 +192,8 @@ export default function ComplaintForm() {
             <Text style={{ fontSize: 24, textAlign: 'center', fontWeight: '500', marginTop: 25 }}>Fill your Personal Details</Text>
             <View style={{ gap: 10, marginTop: 30 }}>
                 <Text style={{ fontSize: 16, color: "#6E6E6E" }}>Name</Text>
-                <TextInput placeholder='Enter your name'
-                    style={{ backgroundColor: 'white', height: 48, elevation: 2, paddingHorizontal: 15 }}>
+                <TextInput onChangeText={text => setName(text)} placeholder='Enter your name'
+                    style={[{ backgroundColor: 'white', height: 48, elevation: 2, paddingHorizontal: 15 }, errors?.name && styles.error]}>
                 </TextInput>
             </View>
             {/* Location (conditionally displayed based on permission and error) */}
@@ -208,4 +262,8 @@ const styles = StyleSheet.create({
         marginTop: 40,
         marginBottom: 10,
     },
+    error: {
+        borderWidth: 1,
+        borderColor: "red"
+    }
 });
